@@ -63,5 +63,29 @@
         "picture": ["rugby.jpg"],
         "tags": ["fun", "match", "warmup"],
         "intensity": 3
-    }
+    }, 
+    {
+        "id": 7,
+        "name": "Popcorn",
+        "description": "Iedereen achter elkaar aan de vrijworplijn. In totaal 2 basketballen. De eerste schiet en blijft schieten tot hij scoort. Scoort hij geeft hij snel de bal door aan de volgende. De tweede persoon begint ook direct met schieten als de eerste schiet. Kan deze eerder scoren dan de eerste is de eerste eraan.",
+        "ageGroup": "Jeugd",
+        "duration": 5,
+        "equipment": ["Basketball"],
+        "tags": ["populair"],
+        "intensity": 1
+    },{
+    "id": 8,
+    "name": "PIG/HORSE",
+    "description": "Per 2. 1 persoon kiest positie en/of manier om te schieten. Scoort hij moet de 2de persoon ook proberen op die manier. Mist hij krijgt hij 1 letter van PIG/HORSE. Heeft iemand alle letters is deze verloren. Mist de 1ste persoon gaat de bal naar de 2de persoon en kiest deze een positie.",
+    "ageGroup": "Jeugd",
+    "duration": 5,
+    "equipment": [
+        "Basketball"
+    ],
+    "picture": [],
+    "tags": [
+        "populair"
+    ],
+    "intensity": 1
+}
 ]

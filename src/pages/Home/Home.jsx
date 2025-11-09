@@ -8,7 +8,16 @@ import DrillModal from "../../components/DrillCard/DrillModal";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState(() => {
+    // default: select all tags except "populair"
+    try {
+      const s = new Set();
+      drillsData.forEach(d => { (d.tags || []).forEach(t => s.add(t)); });
+      return Array.from(s).filter(tag => String(tag).toLowerCase() !== 'populair');
+    } catch (e) {
+      return [];
+    }
+  });
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
   const [ageGroupFilter, setAgeGroupFilter] = useState([]);
   const [durationFilter, setDurationFilter] = useState({ min: '', max: '' });
