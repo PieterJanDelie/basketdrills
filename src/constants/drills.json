@@ -38,8 +38,30 @@
         "description": "Spelers trekken een kaart en moeten deze uitvoeren. Als uitgevoerd krijgt de speler de kaart. Dit is het aantal punten waard van op de kaart. bv harte 8 is 8 punten waard. Alle prentjes 10 (1 pak per +/- 4 spelers):\n\n- schoppen = layup\nkoekens = groot blokje\n- hartjes = elbow shot\n- klavers = 3punter (voor 2x de punten)",
         "ageGroup": "Fanion",
         "duration": 15,
-        "equipment": ["Basketball"],
+        "equipment": ["Basketball", "Kaartspel"],
         "tags": ["fun", "finishing"],
         "intensity": 1
+    }, 
+    {
+        "id": 5,
+        "name": "2vs2vs2vs2 transitie",
+        "description": "Min met 8. 1 team valt aan als Defense bal pakt pas naar O4 (baseline). Deze valt aan met O3 op vrijworplijn aanvallers verdedigen aan de andere kant.",
+        "ageGroup": "Fanion",
+        "duration": 10,
+        "equipment": ["Basketball"],
+        "picture": ["2vs2vs2vs2-transitie-1.jpg", "2vs2vs2vs2-transitie-2.jpg"],
+        "tags": ["transitie", "match", "finishing"],
+        "intensity": 2
+    }, 
+    {
+        "id": 6,
+        "name": "rugby",
+        "description": "Speel best op een groter veld dan basketbal (bv VTI). variant 10-passenspel. Bal mag 1 keer botsen. Bal proberen te vangen in het gebied van de tegenstander. (best in team max met 8 -> 4 vs 4) als bal tegen muur dan wel buiten.",
+        "ageGroup": "Fanion",
+        "duration": 10,
+        "equipment": ["Basketball"],
+        "picture": ["rugby.jpg"],
+        "tags": ["transitie", "match", "finishing"],
+        "intensity": 2
     }
 ]
