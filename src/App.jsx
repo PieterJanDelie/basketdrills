@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/session" element={<TrainingSession />} />
+          <Route path="/sessie" element={<TrainingSession />} />
           <Route path="/trainingen" element={<Trainings />} />
           <>Not found</>
           <Route path="/*" element={<PageNotFound />} />

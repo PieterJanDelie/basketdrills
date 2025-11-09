@@ -200,7 +200,7 @@ const Home = () => {
         <div className="header-section">
           <h1>Basketbal Oefeningen</h1>
           {count > 0 && (
-            <Link to="/session" className="cart-indicator">
+            <Link to="/sessie" className="cart-indicator">
               🏀 Training ({count}) - {getTotalDuration()} min
             </Link>
           )}

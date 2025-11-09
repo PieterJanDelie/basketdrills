@@ -30,7 +30,7 @@ const Trainings = () => {
     clearCart();
     const drills = (session.drills || []).map(id => drillsData.find(d => d.id === id)).filter(Boolean);
     drills.forEach(d => addDrill(d));
-    navigate('/session');
+    navigate('/sessie');
   };
 
   const handleView = (session) => {
