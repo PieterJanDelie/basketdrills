@@ -61,6 +61,46 @@
   color: white;
 }
 
+.sort-btn {
+  position: absolute;
+  right: 46px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+  color: #666;
+}
+.sort-btn:hover {
+  background: #f0f0f0;
+  color: #43669e;
+}
+.sort-btn.active {
+  background: #43669e;
+  color: white;
+}
+
+.sort-popover {
+  position: absolute;
+  right: 10px;
+  top: calc(100% + 8px);
+  width: 240px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  z-index: 30;
+}
+
+.sort-popover .sort-select {
+  width: 100%;
+}
+
 /* Filter Panel */
 .filter-panel {
   background: white;
@@ -190,6 +230,29 @@
   font-size: 0.9rem;
 }
 
+/* Sort Select */
+.sort-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.sort-select:hover {
+  border-color: #43669e;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #43669e;
+  box-shadow: 0 0 0 3px rgba(67, 102, 158, 0.1);
+}
+
 .tags-section h3 {
   margin-top: 0;
   margin-bottom: 15px;
@@ -232,6 +295,20 @@
 .drills-section > h3 {
   margin-bottom: 20px;
   color: #666;
+}
+
+.results-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px 0;
+}
+
+.results-count {
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .drills-grid {
@@ -1059,5 +1136,15 @@
 
   .range-input {
     width: 100px;
+  }
+
+  .sort-select {
+    font-size: 0.95rem;
+  }
+
+  .results-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }

@@ -14,6 +14,8 @@ const Home = () => {
   const [durationFilter, setDurationFilter] = useState({ min: '', max: '' });
   const [equipmentFilter, setEquipmentFilter] = useState([]);
   const [intensityFilter, setIntensityFilter] = useState([]);
+  const [sortBy, setSortBy] = useState('name-asc'); // default: alfabetisch A-Z
+  const [sortPopoverOpen, setSortPopoverOpen] = useState(false);
   const { addDrill, removeDrill, isInCart, count, getTotalDuration } = useCart();
 
   // Toast state for small confirmations (supports optional undo callback)
@@ -135,9 +137,10 @@ const Home = () => {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  // Filter drills op basis van zoekterm, tags en extra filters
+  // Filter en sorteer drills
   const filteredDrills = useMemo(() => {
-    return drillsData.filter(drill => {
+    // Eerst filteren
+    const filtered = drillsData.filter(drill => {
       // Filter op zoekterm
       const matchesSearch = drill.name.toLowerCase().includes(searchTerm.toLowerCase());
       
@@ -161,7 +164,33 @@ const Home = () => {
       
       return matchesSearch && matchesTags && matchesAgeGroup && matchesDuration && matchesEquipment && matchesIntensity;
     });
-  }, [searchTerm, selectedTags, ageGroupFilter, durationFilter, equipmentFilter, intensityFilter]);
+
+    // Dan sorteren
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'duration-asc':
+          return (a.duration || 0) - (b.duration || 0);
+        case 'duration-desc':
+          return (b.duration || 0) - (a.duration || 0);
+        case 'usage-desc':
+          return (drillUsage[b.id] || 0) - (drillUsage[a.id] || 0);
+        case 'usage-asc':
+          return (drillUsage[a.id] || 0) - (drillUsage[b.id] || 0);
+        case 'newest':
+          return b.id - a.id; // assume higher ID = newer
+        case 'oldest':
+          return a.id - b.id;
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [searchTerm, selectedTags, ageGroupFilter, durationFilter, equipmentFilter, intensityFilter, sortBy, drillUsage]);
 
   // DrillCard als losse component zodat elke kaart zijn eigen state kan hebben
   const DrillCard = ({ drill }) => {
@@ -282,6 +311,16 @@ const Home = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+            <button
+              className={`sort-btn ${sortPopoverOpen ? 'active' : ''}`}
+              onClick={() => setSortPopoverOpen(!sortPopoverOpen)}
+              aria-label="Sorteeropties"
+              title="Sorteer"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 18h6v-2H3v2zm0-5h12v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"/>
+              </svg>
+            </button>
             <button 
               className={`filter-icon-btn ${filterPanelOpen ? 'active' : ''}`}
               onClick={() => setFilterPanelOpen(!filterPanelOpen)}
@@ -292,6 +331,29 @@ const Home = () => {
                 <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="currentColor"/>
               </svg>
             </button>
+
+            {/* Sort popover (small) */}
+            {sortPopoverOpen && (
+              <div className="sort-popover" role="dialog" aria-label="Sorteer opties">
+                <select 
+                  className="sort-select"
+                  value={sortBy}
+                  onChange={(e) => { setSortBy(e.target.value); }}
+                >
+                  <option value="name-asc">Naam (A-Z)</option>
+                  <option value="name-desc">Naam (Z-A)</option>
+                  <option value="duration-asc">Duur (kort → lang)</option>
+                  <option value="duration-desc">Duur (lang → kort)</option>
+                  <option value="usage-desc">Meest gebruikt</option>
+                  <option value="usage-asc">Minst gebruikt</option>
+                  <option value="newest">Nieuwste eerst</option>
+                  <option value="oldest">Oudste eerst</option>
+                </select>
+                <div style={{display:'flex', gap:8, justifyContent:'flex-end', marginTop:8}}>
+                  <button className="clear-filters-btn" onClick={() => setSortPopoverOpen(false)}>Klaar</button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -299,7 +361,7 @@ const Home = () => {
         {filterPanelOpen && (
           <div className="filter-panel">
             <div className="filter-header">
-              <h3>Filters</h3>
+              <h3>Filters & Sortering</h3>
               <button 
                 className="clear-filters-btn"
                 onClick={() => {
@@ -307,9 +369,10 @@ const Home = () => {
                   setDurationFilter({ min: '', max: '' });
                   setEquipmentFilter([]);
                   setIntensityFilter([]);
+                  setSortBy('name-asc');
                 }}
               >
-                Reset filters
+                Reset alles
               </button>
             </div>
 
@@ -426,6 +489,11 @@ const Home = () => {
 
         {/* Oefeningen Lijst */}
         <div className="drills-section">
+          <div className="results-info">
+            <span className="results-count">
+              {filteredDrills.length} oefening{filteredDrills.length !== 1 ? 'en' : ''} gevonden
+            </span>
+          </div>
           <div className="drills-grid">
             {filteredDrills.map(drill => (
               <DrillCard key={drill.id} drill={drill} />
