@@ -9,6 +9,11 @@ import DrillModal from "../../components/DrillCard/DrillModal";
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  const [ageGroupFilter, setAgeGroupFilter] = useState([]);
+  const [durationFilter, setDurationFilter] = useState({ min: '', max: '' });
+  const [equipmentFilter, setEquipmentFilter] = useState([]);
+  const [intensityFilter, setIntensityFilter] = useState([]);
   const { addDrill, removeDrill, isInCart, count, getTotalDuration } = useCart();
 
   // Toast state for small confirmations (supports optional undo callback)
@@ -28,6 +33,27 @@ const Home = () => {
       drill.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort();
+  }, []);
+
+  // Collect unique values for filters
+  const allAgeGroups = useMemo(() => {
+    const groups = new Set();
+    drillsData.forEach(drill => { if (drill.ageGroup) groups.add(drill.ageGroup); });
+    return Array.from(groups).sort();
+  }, []);
+
+  const allEquipment = useMemo(() => {
+    const equipment = new Set();
+    drillsData.forEach(drill => { 
+      if (Array.isArray(drill.equipment)) drill.equipment.forEach(e => equipment.add(e));
+    });
+    return Array.from(equipment).sort();
+  }, []);
+
+  const allIntensities = useMemo(() => {
+    const intensities = new Set();
+    drillsData.forEach(drill => { if (drill.intensity) intensities.add(drill.intensity); });
+    return Array.from(intensities).sort();
   }, []);
 
   // Assign a color to each tag from a small palette (deterministic)
@@ -109,7 +135,7 @@ const Home = () => {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-      // Filter drills op basis van zoekterm (naam alleen) en geselecteerde tags
+  // Filter drills op basis van zoekterm, tags en extra filters
   const filteredDrills = useMemo(() => {
     return drillsData.filter(drill => {
       // Filter op zoekterm
@@ -119,9 +145,23 @@ const Home = () => {
       const matchesTags = selectedTags.length === 0 || 
                          selectedTags.some(tag => drill.tags.includes(tag));
       
-      return matchesSearch && matchesTags;
+      // Filter op leeftijdsgroep
+      const matchesAgeGroup = ageGroupFilter.length === 0 || ageGroupFilter.includes(drill.ageGroup);
+      
+      // Filter op duur
+      const matchesDuration = (!durationFilter.min || drill.duration >= parseInt(durationFilter.min)) &&
+                             (!durationFilter.max || drill.duration <= parseInt(durationFilter.max));
+      
+      // Filter op materiaal
+      const matchesEquipment = equipmentFilter.length === 0 || 
+                              (Array.isArray(drill.equipment) && equipmentFilter.some(e => drill.equipment.includes(e)));
+      
+      // Filter op intensiteit
+      const matchesIntensity = intensityFilter.length === 0 || intensityFilter.includes(drill.intensity);
+      
+      return matchesSearch && matchesTags && matchesAgeGroup && matchesDuration && matchesEquipment && matchesIntensity;
     });
-  }, [searchTerm, selectedTags]);
+  }, [searchTerm, selectedTags, ageGroupFilter, durationFilter, equipmentFilter, intensityFilter]);
 
   // DrillCard als losse component zodat elke kaart zijn eigen state kan hebben
   const DrillCard = ({ drill }) => {
@@ -232,16 +272,141 @@ const Home = () => {
           )}
         </div>
         
-        {/* Zoekbalk */}
+        {/* Zoekbalk met filter icoon */}
         <div className="search-section">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Zoek oefeningen..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <div className="search-wrapper">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Zoek oefeningen..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button 
+              className={`filter-icon-btn ${filterPanelOpen ? 'active' : ''}`}
+              onClick={() => setFilterPanelOpen(!filterPanelOpen)}
+              aria-label="Filters tonen/verbergen"
+              title="Filters"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {/* Filter Panel */}
+        {filterPanelOpen && (
+          <div className="filter-panel">
+            <div className="filter-header">
+              <h3>Filters</h3>
+              <button 
+                className="clear-filters-btn"
+                onClick={() => {
+                  setAgeGroupFilter([]);
+                  setDurationFilter({ min: '', max: '' });
+                  setEquipmentFilter([]);
+                  setIntensityFilter([]);
+                }}
+              >
+                Reset filters
+              </button>
+            </div>
+
+            {/* Leeftijdsgroep filter */}
+            <div className="filter-group">
+              <h4>Leeftijdsgroep</h4>
+              <div className="filter-options">
+                {allAgeGroups.map(age => (
+                  <label key={age} className="filter-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={ageGroupFilter.includes(age)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setAgeGroupFilter([...ageGroupFilter, age]);
+                        } else {
+                          setAgeGroupFilter(ageGroupFilter.filter(a => a !== age));
+                        }
+                      }}
+                    />
+                    <span>{age}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Duur filter */}
+            <div className="filter-group">
+              <h4>Duur (minuten)</h4>
+              <div className="filter-range">
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={durationFilter.min}
+                  onChange={(e) => setDurationFilter({ ...durationFilter, min: e.target.value })}
+                  className="range-input"
+                />
+                <span>tot</span>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={durationFilter.max}
+                  onChange={(e) => setDurationFilter({ ...durationFilter, max: e.target.value })}
+                  className="range-input"
+                />
+              </div>
+            </div>
+
+            {/* Materiaal filter */}
+            <div className="filter-group">
+              <h4>Materiaal</h4>
+              <div className="filter-options">
+                {allEquipment.map(eq => (
+                  <label key={eq} className="filter-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={equipmentFilter.includes(eq)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setEquipmentFilter([...equipmentFilter, eq]);
+                        } else {
+                          setEquipmentFilter(equipmentFilter.filter(e => e !== eq));
+                        }
+                      }}
+                    />
+                    <span>{eq}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Intensiteit filter */}
+            {allIntensities.length > 0 && (
+              <div className="filter-group">
+                <h4>Intensiteit</h4>
+                <div className="filter-options">
+                  {allIntensities.map(intensity => (
+                    <label key={intensity} className="filter-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={intensityFilter.includes(intensity)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setIntensityFilter([...intensityFilter, intensity]);
+                          } else {
+                            setIntensityFilter(intensityFilter.filter(i => i !== intensity));
+                          }
+                        }}
+                      />
+                      <span>{intensity}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Tags Filter */}
         <div className="tags-section">
