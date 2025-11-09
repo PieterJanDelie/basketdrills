@@ -48,6 +48,52 @@
 .btn.danger {
   background: #c05b4b;
 }
+
+/* Save/PDF modal styles matching TrainingSession */
+.save-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+
+.save-modal {
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.save-modal h3 {
+  margin: 0 0 8px 0;
+  color: #3c3841;
+}
+
+.save-modal p {
+  margin: 8px 0;
+  color: #666;
+}
+
+.start-session-btn {
+  background: #c05b4b;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.start-session-btn:hover {
+  background: #a04938;
+}
+
 .view-modal-overlay {
   position: fixed;
   inset: 0;

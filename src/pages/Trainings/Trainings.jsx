@@ -12,6 +12,8 @@ const Trainings = () => {
     try { return JSON.parse(localStorage.getItem('savedSessions') || '[]'); } catch (e) { return []; }
   });
   const [viewSession, setViewSession] = useState(null);
+  const [pdfModalOpen, setPdfModalOpen] = useState(false);
+  const [pendingPdfSession, setPendingPdfSession] = useState(null);
   const navigate = useNavigate();
   const { addDrill, clearCart } = useCart();
 
@@ -76,7 +78,26 @@ const Trainings = () => {
         }; img.onerror = () => resolve(placeholderDataUrl); img.src = src;
       });
 
-      if (includeCover) { doc.setFontSize(28); doc.text('Training', pageWidth/2, 80, {align:'center'}); doc.setFontSize(14); doc.text(`Naam: ${session.name}`, pageWidth/2, 95, {align:'center'}); doc.addPage(); }
+      // Cover page with full-bleed image (matching TrainingSession logic)
+      if (includeCover) {
+        let coverSrc = null;
+        try {
+          const coverCandidates = ['cover.jpg','cover.png','cover.jpeg','basketdesselgem-cover.png','basket-desselgem.png','basketdesselgem.png','basket_logo.png','basket.png'];
+          for (const c of coverCandidates) { if (imageMap && imageMap[c]) { coverSrc = imageMap[c]; break; } }
+          if (!coverSrc) coverSrc = (process.env.PUBLIC_URL || '') + '/cover.png';
+        } catch (e) { coverSrc = (process.env.PUBLIC_URL || '') + '/cover.png'; }
+
+        try {
+          const coverData = await imgToDataUrl(coverSrc);
+          const coverType = (typeof coverData === 'string' && coverData.indexOf('data:image/png') === 0) ? 'PNG' : 'JPEG';
+          doc.addImage(coverData, coverType, 0, 0, pageWidth, pageHeight);
+        } catch (e) {
+          // fallback to text cover
+          doc.setFontSize(28); doc.text('Training', pageWidth/2, 80, {align:'center'}); 
+          doc.setFontSize(14); doc.text(`Naam: ${session.name}`, pageWidth/2, 95, {align:'center'});
+        }
+        doc.addPage();
+      }
 
       const logoCandidates = ['basketdesselgem.png','basket-desselgem.png','basketdesselgem.svg','basket-desselgem.svg','basket_logo.png','basket.png','logo-basket.png'];
       let logoSrc = null; for (const c of logoCandidates) { if (imageMap && imageMap[c]) { logoSrc = imageMap[c]; break; } }
@@ -129,7 +150,7 @@ const Trainings = () => {
                       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
                     </svg>
                   </button>
-                  <button onClick={() => generatePdfForSession(s, true)} className="btn" title="Genereer PDF" aria-label="Genereer PDF">
+                  <button onClick={() => { setPendingPdfSession(s); setPdfModalOpen(true); }} className="btn" title="Genereer PDF" aria-label="Genereer PDF">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="currentColor"/>
                     </svg>
@@ -169,8 +190,22 @@ const Trainings = () => {
                 ))}
               </div>
               <div style={{display:'flex',gap:8,justifyContent:'flex-end'}}>
-                <button className="btn" onClick={() => generatePdfForSession(viewSession, false)}>Genereer PDF</button>
+                <button className="btn" onClick={() => { setPendingPdfSession(viewSession); setPdfModalOpen(true); }}>Genereer PDF</button>
                 <button className="btn" onClick={closeView}>Sluiten</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PDF choice modal (Met / Zonder voorblad) */}
+        {pdfModalOpen && (
+          <div className="save-modal-overlay" onClick={() => setPdfModalOpen(false)}>
+            <div className="save-modal" onClick={(e) => e.stopPropagation()}>
+              <h3>Genereer PDF</h3>
+              <p>Wil je een voorblad toevoegen aan de PDF?</p>
+              <div style={{display:'flex', gap:8, justifyContent:'flex-end', marginTop:12}}>
+                <button className="start-session-btn" onClick={() => { setPdfModalOpen(false); generatePdfForSession(pendingPdfSession, false); }}>Zonder voorblad</button>
+                <button className="start-session-btn" onClick={() => { setPdfModalOpen(false); generatePdfForSession(pendingPdfSession, true); }}>Met voorblad</button>
               </div>
             </div>
           </div>

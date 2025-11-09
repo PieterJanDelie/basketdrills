@@ -156,14 +156,31 @@ const TrainingSession = () => {
         img.onerror = () => resolve(placeholderDataUrl);
         img.src = src;
       });
+      // try to locate a cover image (prefer explicit cover files, then known logo candidates)
+      let coverSrc = null;
+      try {
+        const coverCandidates = ['cover.jpg','cover.png','cover.jpeg','basketdesselgem-cover.png','basket-desselgem.png','basketdesselgem.png','basket_logo.png','basket.png'];
+        for (const c of coverCandidates) { if (imageMap && imageMap[c]) { coverSrc = imageMap[c]; break; } }
+        // if no bundled cover was found, prefer a dedicated public cover image
+        if (!coverSrc) coverSrc = (process.env.PUBLIC_URL || '') + '/cover.png';
+      } catch (e) { coverSrc = (process.env.PUBLIC_URL || '') + '/cover.png'; }
 
       if (includeCover) {
-        // cover page
-        doc.setFontSize(28);
-        doc.text('Training', pageWidth / 2, 80, { align: 'center' });
-        doc.setFontSize(14);
-        const date = new Date();
-        doc.text(`Gemaakt op: ${date.toLocaleDateString()}`, pageWidth / 2, 95, { align: 'center' });
+        // cover page: draw the chosen cover image full-bleed (no margins)
+        try {
+          const coverData = await imgToDataUrl(coverSrc);
+          const coverType = (typeof coverData === 'string' && coverData.indexOf('data:image/png') === 0) ? 'PNG' : 'JPEG';
+          // place at 0,0 and use full page dimensions (A4 in mm)
+          doc.addImage(coverData, coverType, 0, 0, pageWidth, pageHeight);
+        } catch (e) {
+          // fallback to simple text cover if image fails
+          doc.setFontSize(28);
+          doc.text('Training', pageWidth / 2, 80, { align: 'center' });
+          doc.setFontSize(14);
+          const date = new Date();
+          doc.text(`Gemaakt op: ${date.toLocaleDateString()}`, pageWidth / 2, 95, { align: 'center' });
+        }
+        // start content on a new page
         doc.addPage();
       }
       // attempt to find a small BasketDesselgem logo; check imageMap first, then a public fallback
@@ -312,7 +329,6 @@ const TrainingSession = () => {
       <DefaultLayout>
         <div className="session-container">
           <div className="session-header">
-            <Link to="/" className="back-link">Terug naar oefeningen</Link>
             <h1>Mijn Training</h1>
           </div>
           <div className="empty-session">
