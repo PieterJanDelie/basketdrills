@@ -120,6 +120,21 @@
   position: relative;
 }
 
+/* Thin grey separator between exercises: draw a subtle line above each drill except the first */
+.drills-list .session-drill + .session-drill {
+  margin-top: 12px;
+}
+.drills-list .session-drill + .session-drill::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: #e6e6e6;
+  position: relative;
+  top: -12px;
+  margin: 0 12px 10px 12px;
+  border-radius: 1px;
+}
+
 .session-drill:hover {
   border-color: #43669e;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
