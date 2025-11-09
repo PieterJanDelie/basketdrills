@@ -1,0 +1,90 @@
+.trainings-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.trainings-header h1 {
+  color: #43669e;
+}
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+.session-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: #fff;
+}
+.session-main {
+  display: flex;
+  flex-direction: column;
+}
+.session-name {
+  font-weight: 700;
+  color: #3c3841;
+}
+.session-meta {
+  font-size: 0.85rem;
+  color: #777;
+}
+.session-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn {
+  background: #43669e;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn.danger {
+  background: #c05b4b;
+}
+.view-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.view-modal {
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 820px;
+  max-height: 80vh;
+  overflow: auto;
+}
+.view-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0 18px 0;
+}
+.view-drill {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.view-drill img {
+  width: 120px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #f6f6f6;
+}
+.v-right p {
+  margin: 6px 0 0 0;
+  color: #666;
+}
