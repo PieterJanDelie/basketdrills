@@ -18,7 +18,7 @@
         "duration": 10,
         "equipment": ["Basketball"],
         "picture": ["5vs5-basebal.jpg"],
-        "tags": ["match", "layup", "finishing"],
+        "tags": ["rebound"],
         "intensity": 1
     },
     {
@@ -39,7 +39,7 @@
         "ageGroup": "Fanion",
         "duration": 15,
         "equipment": ["Basketball", "Kaartspel"],
-        "tags": ["fun", "finishing"],
+        "tags": ["fun", "shooting"],
         "intensity": 1
     }, 
     {
@@ -61,7 +61,7 @@
         "duration": 10,
         "equipment": ["Basketball"],
         "picture": ["rugby.jpg"],
-        "tags": ["fun", "match"],
+        "tags": ["fun", "match", "warmup"],
         "intensity": 3
     }
 ]
