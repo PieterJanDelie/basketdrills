@@ -6,7 +6,7 @@
         "ageGroup": "Fanion",
         "duration": 10,
         "equipment": ["Basketball"],
-        "picture": ["basebalpas.jpg", "5vs5-basebal.jpg"],
+        "picture": ["basebalpas.jpg"],
         "tags": ["passen", "layup", "transitie"],
         "intensity": 2
     },
@@ -19,6 +19,27 @@
         "equipment": ["Basketball"],
         "picture": ["5vs5-basebal.jpg"],
         "tags": ["match", "layup", "finishing"],
+        "intensity": 1
+    },
+    {
+        "id": 3,
+        "name": "Treintje",
+        "description": "Ik heb deze variant van treintje = 'Treintje'. Iedereen doet hetvolgende. Dan aanval andere kant 3 vs 2.\n\nHeren\n--------\nS1 -> Layup      -> Defense\nS2 -> Rebound  -> Offense\nS3 -> Eindlijn    -> Offense\nS4 -> Eindlijn    -> Offense\nS5 -> Eindlijn    -> Defense\n\nJeugd\n----------\nS1 -> Layup      -> Offense\nS2 -> Rebound  -> Offense\nS3 -> Eindlijn    -> Defense\nS4 -> Eindlijn    -> Defense\nS5 -> Eindlijn    -> Offense Lijkt me logischere volgorde voor de heren anders is eerste altijd direct weg en easy layup.",
+        "ageGroup": "Jeugd",
+        "duration": 15,
+        "equipment": ["Basketball"],
+        "picture": ["treintje.jpg"],
+        "tags": ["match", "layup", "transitie"],
+        "intensity": 1
+    },
+    {
+        "id": 4,
+        "name": "Kaart battle",
+        "description": "Spelers trekken een kaart en moeten deze uitvoeren. Als uitgevoerd krijgt de speler de kaart. Dit is het aantal punten waard van op de kaart. bv harte 8 is 8 punten waard. Alle prentjes 10 (1 pak per +/- 4 spelers):\n\n- schoppen = layup\nkoekens = groot blokje\n- hartjes = elbow shot\n- klavers = 3punter (voor 2x de punten)",
+        "ageGroup": "Fanion",
+        "duration": 15,
+        "equipment": ["Basketball"],
+        "tags": ["fun", "finishing"],
         "intensity": 1
     }
 ]

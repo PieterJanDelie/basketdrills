@@ -15,9 +15,7 @@ const Trainings = () => {
   const navigate = useNavigate();
   const { addDrill, clearCart } = useCart();
 
-  const refresh = () => {
-    try { setSessions(JSON.parse(localStorage.getItem('savedSessions') || '[]')); } catch (e) { setSessions([]); }
-  };
+  
 
   const handleDelete = (id) => {
     const remaining = sessions.filter(s => s.id !== id);
@@ -49,6 +47,16 @@ const Trainings = () => {
       const req = require.context('../../assets/Images/drills', false, /\.(png|jpe?g|svg)$/i);
       const map = {};
       req.keys().forEach(key => { const fileName = key.replace('./',''); const mod = req(key); map[fileName] = mod && mod.default ? mod.default : mod; });
+      return map;
+    } catch (e) { return {}; }
+  }, []);
+
+  // compute how often each drill appears across saved sessions
+  const drillUsage = useMemo(() => {
+    try {
+      const sessionsAll = JSON.parse(localStorage.getItem('savedSessions') || '[]');
+      const map = {};
+      sessionsAll.forEach(s => { (s.drills || []).forEach(id => { map[id] = (map[id] || 0) + 1; }); });
       return map;
     } catch (e) { return {}; }
   }, []);
@@ -110,16 +118,27 @@ const Trainings = () => {
         ) : (
           <div className="sessions-list">
             {sessions.map(s => (
-              <div key={s.id} className="session-item">
+              <div key={s.id} className="session-item" onClick={() => handleView(s)} style={{cursor:'pointer'}}>
                 <div className="session-main">
                   <div className="session-name">{s.name}</div>
                   <div className="session-meta">{new Date(s.createdAt).toLocaleString()}</div>
                 </div>
-                <div className="session-actions">
-                  <button onClick={() => handleView(s)} className="btn">Bekijk</button>
-                  <button onClick={() => handleEdit(s)} className="btn">Bewerk</button>
-                  <button onClick={() => generatePdfForSession(s, true)} className="btn">PDF</button>
-                  <button onClick={() => handleDelete(s.id)} className="btn danger">Verwijder</button>
+                <div className="session-actions" onClick={(e) => e.stopPropagation()}>
+                  <button onClick={() => handleEdit(s)} className="btn" title="Bewerk training" aria-label="Bewerk training">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                  <button onClick={() => generatePdfForSession(s, true)} className="btn" title="Genereer PDF" aria-label="Genereer PDF">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                  <button onClick={() => handleDelete(s.id)} className="btn danger" title="Verwijder training" aria-label="Verwijder training">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}
@@ -134,7 +153,18 @@ const Trainings = () => {
                 {viewSession.drills.map(d => (
                   <div key={d.id} className="view-drill">
                     <div className="v-left"><img src={ (d.picture && d.picture.length>0 && imageMap[d.picture[0]]) ? imageMap[d.picture[0]] : placeholderDataUrl } alt="" /></div>
-                    <div className="v-right"><strong>{d.name}</strong><p>{d.description}</p></div>
+                    <div className="v-right">
+                      <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                        <strong>{d.name}</strong>
+                        <span className="view-usage" title={`Voorkomst in opgeslagen trainingen: ${drillUsage[d.id] || 0}`}>
+                          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden style={{width:16,height:16,fill:'#43669e'}}>
+                            <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                          </svg>
+                          <span style={{fontWeight:700, marginLeft:4}}>{drillUsage[d.id] || 0}</span>
+                        </span>
+                      </div>
+                      <p>{d.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>

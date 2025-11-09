@@ -92,6 +92,23 @@ const Home = () => {
     }
   }, []);
 
+  // Count how many times each drill ID appears in savedSessions and refresh on storage events
+  const [drillUsage, setDrillUsage] = useState({});
+  React.useEffect(() => {
+    const compute = () => {
+      try {
+        const sessions = JSON.parse(localStorage.getItem('savedSessions') || '[]');
+        const map = {};
+        sessions.forEach(s => { (s.drills || []).forEach(id => { map[id] = (map[id] || 0) + 1; }); });
+        setDrillUsage(map);
+      } catch (e) { setDrillUsage({}); }
+    };
+    compute();
+    const onStorage = (e) => { if (!e || e.key === 'savedSessions') compute(); };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
       // Filter drills op basis van zoekterm (naam alleen) en geselecteerde tags
   const filteredDrills = useMemo(() => {
     return drillsData.filter(drill => {
@@ -156,6 +173,15 @@ const Home = () => {
           >
             {inCart ? '✓' : '+'}
           </button>
+          {/* usage badge: history icon + count */}
+          <div className="drill-usage" title={`Voorkomst in opgeslagen trainingen: ${drillUsage[drill.id] || 0}`}>
+            <span className="history-icon" aria-hidden>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+              </svg>
+            </span>
+            <span className="usage-count">{drillUsage[drill.id] || 0}</span>
+          </div>
         </div>
         <div className="drill-content">
           <h4>{drill.name}</h4>
@@ -254,6 +280,7 @@ const Home = () => {
             tagColors={tagColors}
             getTextColor={getTextColor}
             showToast={showToast}
+            drillUsage={drillUsage}
           />
         )}
 

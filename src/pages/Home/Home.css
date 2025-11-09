@@ -311,6 +311,7 @@
   color: #666;
   line-height: 1.6;
   margin: 0 0 8px 0;
+  white-space: pre-line;
 }
 
 .details-cards {
@@ -810,6 +811,55 @@
 
 .cart-btn.in-cart:hover {
   background: #45a049;
+}
+
+/* Usage badge placed on top-left of image showing how often this drill occurs in saved trainings */
+.drill-usage {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: #43669e;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 14px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.drill-usage .history-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drill-usage .history-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #fff;
+}
+
+/* Modal usage display (right-aligned in modal header) */
+.modal-usage {
+  background: #43669e;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.modal-usage svg {
+  width: 16px;
+  height: 16px;
+  fill: #fff;
 }
 
 @media (max-width: 768px) {
