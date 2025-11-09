@@ -22,7 +22,7 @@ const Header = () => {
         </button>
 
         <nav className={`main-nav ${open ? 'open' : ''}`} onClick={() => setOpen(false)}>
-          <NavLink to="/" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Home</NavLink>
+          <NavLink to="/" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Oefeningen</NavLink>
           <NavLink to="/sessie" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Mijn sessie</NavLink>
           <NavLink to="/trainingen" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Opgeslagen trainingen</NavLink>
         </nav>

@@ -2,6 +2,7 @@ import React from "react";
 import Home from "./pages/Home/Home";
 import TrainingSession from "./pages/TrainingSession/TrainingSession";
 import Trainings from "./pages/Trainings/Trainings";
+import DataEntry from "./pages/DataEntry/DataEntry";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
 import { CartProvider } from "./contexts/CartContext";
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/sessie" element={<TrainingSession />} />
           <Route path="/trainingen" element={<Trainings />} />
+          <Route path="/data" element={<DataEntry />} />
           <>Not found</>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

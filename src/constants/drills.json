@@ -61,7 +61,7 @@
         "duration": 10,
         "equipment": ["Basketball"],
         "picture": ["rugby.jpg"],
-        "tags": ["transitie", "match", "finishing"],
-        "intensity": 2
+        "tags": ["fun", "match"],
+        "intensity": 3
     }
 ]
