@@ -1,0 +1,645 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.home-container h1 {
+  text-align: center;
+  color: #43669e;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+.search-section {
+  margin-bottom: 30px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #43669e;
+}
+
+.tags-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #3c3841;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tag-pill {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 2px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tag-pill.pill-active {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.tag-pill:hover {
+  transform: translateY(-2px);
+}
+
+/* Colored accent on the left of a drill-card using CSS variable set inline */
+.drill-card {
+  --card-color: transparent;
+  border-left: 6px solid var(--card-color);
+}
+
+/* Oefeningen sectie */
+.drills-section {
+  margin-top: 30px;
+}
+
+.drills-section > h3 {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.drills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* Oefening kaart */
+.drill-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.drill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.drill-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drill-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* show full image without cropping */
+  background-color: #f0f0f0;
+  display: block;
+}
+
+/* Image navigation buttons (prev/next) */
+.img-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+}
+
+.img-prev {
+  left: 10px;
+}
+.img-next {
+  right: 10px;
+}
+
+.img-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+/* .drill-image position is handled above */
+
+.drill-image-placeholder {
+  font-size: 4rem;
+}
+
+/* Modal / Popup styles */
+.drill-modal-overlay {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* ensure it's above everything */
+  padding: 20px;
+}
+
+.drill-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #3c3841;
+}
+
+.modal-body {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-images {
+  flex: 1 1 55%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-images img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.modal-details {
+  flex: 1 1 45%;
+  overflow: auto;
+  padding-right: 8px;
+}
+
+/* Modal right column: header, tags, description, details and equipment */
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.modal-title {
+  margin: 0;
+  color: #3c3841;
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.modal-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.drill-tag-pill {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+}
+
+.modal-section {
+  margin-top: 14px;
+}
+
+.section-title {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #3c3841;
+  font-weight: 700;
+}
+
+.toast {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  background: rgba(60, 56, 65, 0.97);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 10000;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.toast-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.toast-message {
+  padding-right: 6px;
+}
+
+.toast-undo {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.toast-undo:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.modal-desc {
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 8px 0;
+}
+
+.details-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.detail-card {
+  background: #f6fbff;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(67, 102, 158, 0.06);
+}
+
+.detail-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(67, 102, 158, 0.08);
+  color: #43669e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.detail-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #6b6b6b;
+}
+
+.detail-value {
+  font-weight: 700;
+  color: #3c3841;
+  margin-top: 4px;
+}
+
+.equipment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.equipment-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555;
+}
+
+.equip-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(67, 102, 158, 0.08);
+  color: #43669e;
+}
+
+/* Intensity visualization */
+.intensity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.intensity-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #e6e6e6;
+  display: inline-block;
+}
+
+/* Active intensity colors: green (licht), orange (gemiddeld), red (zwaar) */
+.intensity-dot.active.intensity-green {
+  background: #4caf50;
+}
+.intensity-dot.active.intensity-orange {
+  background: #f39c12;
+}
+.intensity-dot.active.intensity-red {
+  background: #e74c3c;
+}
+
+.intensity-label {
+  font-size: 0.85rem;
+  color: #555;
+  margin-left: 6px;
+}
+
+/* Modal actions (add to training button + video link) */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.add-btn {
+  background: #43669e;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(67, 102, 158, 0.12);
+}
+
+.add-btn.in-cart {
+  background: #c05b4b;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Simple toast notification */
+.toast {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  background: rgba(60, 56, 65, 0.97);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 10000;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .modal-body {
+    flex-direction: column;
+  }
+  .modal-images,
+  .modal-details {
+    flex: none;
+    width: 100%;
+  }
+  .modal-images img {
+    max-height: 50vh;
+  }
+}
+
+.drill-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.drill-content h4 {
+  margin: 0 0 10px 0;
+  color: #3c3841;
+  font-size: 1.4rem;
+}
+
+.drill-description {
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.drill-info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.drill-age,
+.drill-duration {
+  color: #555;
+}
+
+.drill-equipment {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.drill-equipment strong {
+  color: #3c3841;
+}
+
+.drill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.drill-tag {
+  background-color: #e8e8e8;
+  color: #555;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.drill-video-link {
+  display: inline-block;
+  color: #43669e;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: auto;
+  transition: color 0.3s;
+}
+
+.drill-video-link:hover {
+  color: #c05b4b;
+  text-decoration: underline;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+  padding: 40px 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 15px;
+  }
+
+  .home-container h1 {
+    font-size: 2rem;
+  }
+
+  .drills-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tags-container {
+    gap: 8px;
+  }
+
+  .tag-checkbox span {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Header with cart indicator */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-indicator {
+  background: #43669e;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+  box-shadow: 0 2px 10px rgba(67, 102, 158, 0.3);
+}
+
+.cart-indicator:hover {
+  background: #c05b4b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(192, 91, 75, 0.4);
+}
+
+/* Cart button on drill cards */
+.cart-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.cart-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.cart-btn.in-cart {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+.cart-btn.in-cart:hover {
+  background: #45a049;
+}
+
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .cart-indicator {
+    text-align: center;
+  }
+}

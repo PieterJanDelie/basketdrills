@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "name": "Basebalpass",
+        "description": "O1 basebal pass naar O2, O2 eigen rebound en basebal pass. Aansluiten lijn. Minimum 2 ballen. Coach voegt ballen toe.",
+        "ageGroup": "Fanion",
+        "duration": 10,
+        "equipment": ["Basketball"],
+        "picture": ["basebalpas.jpg", "5vs5-basebal.jpg"],
+        "tags": ["passen", "layup", "transitie"],
+        "intensity": 2
+    },
+    {
+        "id": 2,
+        "name": "5vs5-baseball",
+        "description": "Als offense rebound heeft 5 pushups defense. Defense rebound full court pass naar fastbreaker 6 is een willekeurige persoon van defense team dus geen 6de persoon. Fastbreak zonder defense. ",
+        "ageGroup": "Fanion",
+        "duration": 10,
+        "equipment": ["Basketball"],
+        "picture": ["5vs5-basebal.jpg"],
+        "tags": ["match", "layup", "finishing"],
+        "intensity": 1
+    }
+]
