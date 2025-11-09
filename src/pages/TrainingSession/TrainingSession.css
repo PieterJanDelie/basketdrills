@@ -443,3 +443,86 @@
     font-size: 1.1rem;
   }
 }
+
+/* Additional mobile/tight layout improvements */
+@media (max-width: 700px) {
+  .session-drill {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .drill-main {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .drill-thumb {
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .drill-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .drill-thumb .img-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .drill-info {
+    width: 100%;
+  }
+
+  .remove-drill-btn {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .start-session-btn,
+  .save-btn,
+  .btn-primary {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .session-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .drill-order {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .drill-thumb {
+    height: 140px;
+  }
+
+  .drill-main-text h3 {
+    font-size: 1rem;
+  }
+
+  .drill-meta span,
+  .drill-tags .tag {
+    font-size: 0.85rem;
+  }
+
+  .save-modal {
+    margin: 0 12px;
+  }
+}

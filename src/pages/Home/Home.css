@@ -471,6 +471,181 @@
   }
 }
 
+/* Improve modal responsiveness on small screens */
+@media (max-width: 600px) {
+  .drill-modal {
+    width: 100%;
+    max-width: 100%;
+    height: 92vh;
+    max-height: 92vh;
+    margin: 0 8px;
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .modal-body {
+    gap: 12px;
+    padding: 8px;
+  }
+  .modal-images {
+    order: 1;
+    width: 100%;
+  }
+  .modal-images img {
+    width: 100%;
+    height: auto;
+    max-height: 42vh;
+  }
+  .img-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+  .img-counter {
+    font-size: 0.8rem;
+    padding: 4px 7px;
+  }
+  .modal-details {
+    order: 2;
+    width: 100%;
+    padding: 8px;
+  }
+  .modal-title {
+    font-size: 1.25rem;
+  }
+  .modal-desc {
+    font-size: 0.95rem;
+  }
+  .detail-card {
+    padding: 10px;
+  }
+  .detail-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .add-btn {
+    width: 100%;
+    padding: 12px;
+  }
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 420px) {
+  .modal-images img {
+    max-height: 36vh;
+  }
+  .modal-title {
+    font-size: 1.1rem;
+  }
+  .modal-desc {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .drills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .drill-image {
+    height: 180px;
+  }
+  .drill-card {
+    border-radius: 10px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .search-input {
+    font-size: 1rem;
+    padding: 12px 14px;
+  }
+  .drill-image {
+    height: 140px;
+  }
+  .drill-image img {
+    object-fit: contain;
+  }
+  .drill-card {
+    padding: 12px;
+  }
+  .drill-content {
+    padding: 12px;
+  }
+  .drill-content h4 {
+    font-size: 1.15rem;
+  }
+  .drill-description {
+    font-size: 0.95rem;
+  }
+  .drills-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .tag-pill {
+    padding: 6px 10px;
+    font-size: 0.95rem;
+  }
+  .tags-container {
+    gap: 8px;
+  }
+  .img-nav {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+  .img-counter {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+  .drill-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .drill-meta {
+    gap: 8px;
+  }
+  .cart-btn {
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 420px) {
+  .drill-image {
+    height: 120px;
+  }
+  .site-logo {
+    height: 40px;
+  }
+  .drill-content h4 {
+    font-size: 1.05rem;
+  }
+  .drill-description {
+    font-size: 0.9rem;
+  }
+  .drill-card {
+    border-radius: 8px;
+  }
+  .modal-close {
+    font-size: 26px;
+  }
+  .drill-tags {
+    gap: 6px;
+  }
+}
+
 .drill-content {
   padding: 20px;
   flex: 1;
@@ -581,6 +756,10 @@
   align-items: center;
 }
 
+.header-section h1 {
+  margin-bottom: 0;
+}
+
 .cart-indicator {
   background: #43669e;
   color: white;
@@ -590,6 +769,7 @@
   font-weight: 600;
   transition: background 0.3s;
   box-shadow: 0 2px 10px rgba(67, 102, 158, 0.3);
+  margin-bottom: 15px;
 }
 
 .cart-indicator:hover {

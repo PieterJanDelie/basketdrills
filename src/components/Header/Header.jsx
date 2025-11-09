@@ -26,6 +26,7 @@ const Header = () => {
           <NavLink to="/sessie" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Mijn sessie</NavLink>
           <NavLink to="/trainingen" className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'}>Opgeslagen trainingen</NavLink>
         </nav>
+        {open && <div className="mobile-overlay" onClick={() => setOpen(false)} aria-hidden />}
       </div>
     </header>
   );

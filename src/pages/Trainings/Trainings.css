@@ -88,3 +88,79 @@
   margin: 6px 0 0 0;
   color: #666;
 }
+
+/* Responsive tweaks for Trainings list and modal */
+@media (max-width: 700px) {
+  .session-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .session-main {
+    width: 100%;
+  }
+
+  .session-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .session-actions .btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  .view-modal {
+    max-width: 92%;
+    width: 92%;
+  }
+}
+
+@media (max-width: 480px) {
+  .trainings-container {
+    padding: 12px;
+  }
+
+  .session-item {
+    padding: 10px;
+  }
+
+  .session-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .session-actions .btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .view-modal {
+    width: calc(100% - 20px);
+    max-width: 100%;
+    max-height: calc(100vh - 28px);
+    height: auto;
+    border-radius: 8px;
+    overflow: auto;
+  }
+
+  .view-drill {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .view-drill img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .v-right p {
+    font-size: 0.95rem;
+  }
+}
