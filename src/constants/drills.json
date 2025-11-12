@@ -74,18 +74,143 @@
         "tags": ["populair"],
         "intensity": 1
     },{
-    "id": 8,
-    "name": "PIG/HORSE",
-    "description": "Per 2. 1 persoon kiest positie en/of manier om te schieten. Scoort hij moet de 2de persoon ook proberen op die manier. Mist hij krijgt hij 1 letter van PIG/HORSE. Heeft iemand alle letters is deze verloren. Mist de 1ste persoon gaat de bal naar de 2de persoon en kiest deze een positie.",
-    "ageGroup": "Jeugd",
-    "duration": 5,
-    "equipment": [
-        "Basketball"
-    ],
-    "picture": [],
-    "tags": [
-        "populair"
-    ],
-    "intensity": 1
-}
+        "id": 8,
+        "name": "PIG/HORSE",
+        "description": "Per 2. 1 persoon kiest positie en/of manier om te schieten. Scoort hij moet de 2de persoon ook proberen op die manier. Mist hij krijgt hij 1 letter van PIG/HORSE. Heeft iemand alle letters is deze verloren. Mist de 1ste persoon gaat de bal naar de 2de persoon en kiest deze een positie.",
+        "ageGroup": "Jeugd",
+        "duration": 5,
+        "equipment": [
+            "Basketball"
+        ],
+        "picture": [],
+        "tags": [
+            "populair"
+        ],
+        "intensity": 1
+    },
+    {
+        "id": 9,
+        "name": "Jordan drill",
+        "description": "O1 pass naar O2 loopt rond kegel voor rebound later. O2 pass naar O3 rond de kegel voor layup later. 03 layup en doorlopen voor rebound later. O4 rebound pas naar 01 voor guard later. Eerst beginnen 2 keer kan verhogen tot +/- max 8 keer per groep. Missen is opnieuw.",
+        "ageGroup": "Fanion",
+        "duration": 15,
+        "equipment": [
+            "Basketball",
+            "Kegels"
+        ],
+        "picture": [
+            "Jordan_drill-v1.png",
+            "Jordan_drill-v2.png"
+        ],
+        "tags": [
+            "finishing",
+            "layup",
+            "passen",
+            "transitie",
+            "rebound"
+        ],
+        "intensity": 3
+    },
+    {
+        "id": 10,
+        "name": "1 vs 1 snel beslissen",
+        "description": "Coach geef bal. 2 spelers even ver van goal.  Coach past naar één van de twee die valt aan, andere verdedigd. Om ter eerst tot X.",
+        "ageGroup": "Jeugd",
+        "duration": 15,
+        "equipment": [
+            "Basketball"
+        ],
+        "picture": [
+            "1_vs_1_snel_beslissen.png"
+        ],
+        "tags": [
+            "finishing"
+        ],
+        "intensity": 1
+    }, 
+    {
+        "id": 11,
+        "name": "Dribbels op de spot",
+        "description": "Leg op de 5 spots laat ze aan elke spot een move doen. bv crosover, front/reverse pivot, ...",
+        "ageGroup": "Jeugd",
+        "duration": 10,
+        "equipment": [  
+            "Spots"
+        ],
+        "picture": [
+            "Dribbels.png"
+        ],
+        "tags": [
+            "Dribbels"
+        ],
+        "intensity": 1
+    },
+    {
+        "id": 12,
+        "name": "Dribbels rond de cirkel",
+        "description": "in groepjes rond de tegenover de kegel doe moves dribbel naar kegel doe move pass naar links.\nFront/reverse pivot. crosdribbel, behind the back (ook meerdere moves mogelijk.",
+        "ageGroup": "Jeugd",
+        "duration": 15,
+        "equipment": [
+            "Basketball",
+            "Kegels"
+        ],
+        "picture": [
+            "Dribbels_rond_de_cirkel.png"
+        ],
+        "tags": [
+            "Dribbels"
+        ],
+        "intensity": 1
+    },
+    {
+        "id": 13,
+        "name": "Defending the crown",
+        "description": "Iedereen rond de 2 kegels. 1 persoon probeert te verdedigen en de kegels te redden. Andere passen rond zodat de kegels niet kunnen worden omgegeooid.",
+        "ageGroup": "Jeugd",
+        "duration": 10,
+        "equipment": [
+            "Basketball",
+            "Kegels"
+        ],
+        "picture": [
+            "Defending_the_crown.png"
+        ],
+        "tags": [
+            "Defense"
+        ],
+        "intensity": 1
+    }, 
+    {
+        "id": 14,
+        "name": "Schipper mag ik over varen.",
+        "description": "Tikkers met bal andere zonder. Begin met 1 tikker. Als hij iemand tikt neemt deze een bal en wordt ook tikker. Enkel op fluitsignaal steken ze over. Best op een half veld.",
+        "ageGroup": "Jeugd",
+        "duration": 10,
+        "equipment": [
+            "Basketball"
+        ],
+        "picture": [
+            "Schipper_mag_ik_overvaren.png"
+        ],
+        "tags": [
+            "warmup"
+        ],
+        "intensity": 2
+    }, 
+    {
+        "id": 15,
+        "name": "shooter - 1 vs 1 rebound",
+        "description": "1 shooter. D1 en O1 op blokje om ter eerst tot 3 rebounds. Persoon met 3 rebounds wordt shooter.",
+        "ageGroup": "Jeugd",
+        "duration": 10,
+        "equipment": [
+            "Basketball"
+        ],
+        "picture": ["shooter-1vs1rebound.png"],
+        "tags": [
+            "rebound"
+        ],
+        "intensity": 2
+    }
 ]
