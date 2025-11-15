@@ -14,6 +14,8 @@ const Trainings = () => {
   const [viewSession, setViewSession] = useState(null);
   const [pdfModalOpen, setPdfModalOpen] = useState(false);
   const [pendingPdfSession, setPendingPdfSession] = useState(null);
+  const [toast, setToast] = useState({ visible: false, message: '' });
+  const toastTimer = React.useRef(null);
   const navigate = useNavigate();
   const { addDrill, clearCart } = useCart();
 
@@ -32,6 +34,52 @@ const Trainings = () => {
     drills.forEach(d => addDrill(d));
     navigate('/sessie');
   };
+
+  const handleShare = (id) => {
+    const makeSlug = (name) => {
+      if (!name) return '';
+      return name.toLowerCase()
+        .normalize('NFKD')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+    };
+
+    try {
+      const sess = sessions.find(s => String(s.id) === String(id));
+      const slugPart = sess ? `-${makeSlug(sess.name)}` : '';
+      const url = (window.location.origin || '') + `/share/${id}${slugPart}`;
+
+      const showToast = (msg) => {
+        setToast({ visible: true, message: msg });
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => setToast({ visible: false, message: '' }), 2500);
+      };
+
+      if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('Deel-link gekopieerd naar klembord');
+        }).catch(() => {
+          window.prompt('Kopieer deze link:', url);
+          showToast('Kopieer link (zie prompt)');
+        });
+      } else {
+        window.prompt('Kopieer deze link:', url);
+        showToast('Kopieer link (zie prompt)');
+      }
+    } catch (e) {
+      console.error('Delen mislukt', e);
+      const url = (window.location.origin || '') + `/share/${id}`;
+      window.prompt('Kopieer deze link:', url);
+    }
+  };
+
+  React.useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    };
+  }, []);
 
   const handleView = (session) => {
     const drills = (session.drills || []).map(id => drillsData.find(d => d.id === id)).filter(Boolean);
@@ -155,6 +203,11 @@ const Trainings = () => {
                       <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="currentColor"/>
                     </svg>
                   </button>
+                  <button onClick={() => handleShare(s.id)} className="btn" title="Deel training" aria-label="Deel training">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.02-4.11c.54.5 1.25.81 2.05.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.09 9.81C7.55 9.3 6.84 9 6.04 9 4.38 9 3.04 10.34 3.04 12s1.34 3 3 3c.8 0 1.51-.3 2.05-.81l7.12 4.18c-.05.21-.08.43-.08.64 0 1.53 1.24 2.77 2.77 2.77S21 17.61 21 16.08 19.53 13.31 18 13.31z" fill="currentColor"/>
+                    </svg>
+                  </button>
                   <button onClick={() => handleDelete(s.id)} className="btn danger" title="Verwijder training" aria-label="Verwijder training">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
@@ -210,6 +263,10 @@ const Trainings = () => {
             </div>
           </div>
         )}
+        {/* Toast notification (copy confirmation) */}
+        <div className={`toast ${toast.visible ? 'toast-visible' : ''}`} role="status" aria-live="polite">
+          <div className="toast-message">{toast.message}</div>
+        </div>
       </div>
     </DefaultLayout>
   );
