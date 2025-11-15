@@ -1,0 +1,23 @@
+[
+    {
+        "type": "link",
+        "name": "Breakthrough Basketball website",
+        "description": "Op deze site staan heel veel basketbal oefeningen. Bijna alle oefeningen hebben ook een video. Niet elke oefening is even goed maar wel veel inspiratie.",
+        "data":"https://www.breakthroughbasketball.com/drills/basketballdrills.html"
+    }, {
+        "type": "int-doc",
+        "name": "Breakthroughbasketbal 72 drills",
+        "description": "Op deze site staan heel veel basketbal oefeningen. Bijna alle oefeningen hebben ook een video. Niet elke oefening is even goed maar wel veel inspiratie.",
+        "data":"BreakthroughDrills.pdf"
+    }, {
+        "type": "link",
+        "name": "YouTube You got Mojo",
+        "description": "Veel oefeningen voor alle sporten ook basketbal. Ook de video's van bv voetbal kunnen interessant zijn om aan te passen naar basketbal.",
+        "data":"https://www.youtube.com/watch?v=ZujOzmgqpq4"
+    }, {
+        "type": "ext-doc",
+        "name": "Lessenbundel basketbal Vlaanderen",
+        "description": "Een uitgebreide lessenbundel voor basketbal, beschikbaar gesteld door Basketbal Vlaanderen. Voornamelijk voor de hele jonge jeugd.",
+        "data":"https://www.basketbal.vlaanderen/documenten/lessenbundel-preview.pdf"
+    }
+]

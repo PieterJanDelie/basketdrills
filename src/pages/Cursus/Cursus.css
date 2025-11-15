@@ -1,0 +1,173 @@
+.cursus-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.cursus-header h1 {
+  color: #43669e;
+  margin: 0 0 6px 0;
+}
+.cursus-intro {
+  color: #666;
+  margin: 6px 0 18px 0;
+}
+.cursus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.cursus-card {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cursus-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.cursus-type {
+  background: #f0f6ff;
+  color: #43669e;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.cursus-name {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #3c3841;
+}
+.cursus-desc {
+  color: #666;
+  margin: 12px 0 16px 0;
+  flex: 1 1 auto;
+}
+.cursus-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.cursus-card .btn {
+  background: #43669e;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.cursus-card .btn:hover {
+  background: #365a8a;
+}
+
+/* Medium screens: tighten spacing */
+@media (max-width: 900px) {
+  .cursus-container {
+    padding: 16px;
+  }
+  .cursus-grid {
+    gap: 14px;
+  }
+  .cursus-card {
+    padding: 12px;
+  }
+  .cursus-name {
+    font-size: 1rem;
+  }
+}
+
+/* Small screens: stack and center content, make buttons full-width */
+@media (max-width: 520px) {
+  .cursus-container {
+    padding: 12px;
+    width: 95%;
+  }
+  .cursus-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .cursus-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .cursus-intro {
+    margin-bottom: 12px;
+  }
+  .cursus-card-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .cursus-desc {
+    margin: 10px 0;
+  }
+  .cursus-actions {
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+  .cursus-card .btn {
+    width: 100%;
+    text-align: center;
+    padding: 10px 12px;
+  }
+  .cursus-type {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra tweaks to ensure full card visibility on very small devices */
+@media (max-width: 420px) {
+  .cursus-container {
+    padding: 10px;
+    width: 100%;
+  }
+  .cursus-grid {
+    gap: 10px;
+  }
+  .cursus-card {
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    justify-content: flex-start;
+    min-height: 0;
+    word-break: break-word;
+    box-sizing: border-box;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  .cursus-card * {
+    box-sizing: border-box;
+  }
+  .cursus-card-header {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .cursus-name {
+    font-size: 0.98rem;
+    line-height: 1.15;
+  }
+  .cursus-desc {
+    margin: 8px 0 12px 0;
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+  .cursus-actions {
+    gap: 6px;
+  }
+  .cursus-card .btn {
+    padding: 9px 10px;
+    font-size: 0.95rem;
+  }
+}
