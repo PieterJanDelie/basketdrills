@@ -8,7 +8,7 @@ import DrillModal from '../../components/DrillCard/DrillModal';
 import { jsPDF } from 'jspdf';
 
 const TrainingSession = () => {
-  const { selectedDrills, removeDrill, getTotalDuration, reorderDrills } = useCart();
+  const { selectedDrills, addDrill, removeDrill, getTotalDuration, reorderDrills } = useCart();
   const [draggedIndex, setDraggedIndex] = useState(null);
 
   const handleDragStart = (e, index) => {
@@ -71,6 +71,20 @@ const TrainingSession = () => {
   const [saveModal, setSaveModal] = useState(false);
   // PDF choice modal
   const [pdfModalOpen, setPdfModalOpen] = useState(false);
+  // Add new drill modal
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
+  // New drill form state (no image, no ageGroup as requested)
+  const [newDrillForm, setNewDrillForm] = useState({
+    name: '',
+    description: '',
+    duration: '',
+    equipment: [],
+    tags: [],
+    intensity: 1,
+  });
+  const [tmpEquipment, setTmpEquipment] = useState('');
+  const [tmpTag, setTmpTag] = useState('');
   // default save name: "Training - DD/MM/YY" for tomorrow
   const defaultSaveName = React.useMemo(() => {
     const d = new Date();
@@ -86,6 +100,83 @@ const TrainingSession = () => {
   const showSaveMessage = (msg) => {
     setSaveMessage(msg);
     setTimeout(() => setSaveMessage(''), 2200);
+  };
+
+  // derive existing equipment/tags from drillsData for quick chips
+  const existingEquipment = useMemo(() => {
+    const items = new Set();
+    (Array.isArray(drillsData) ? drillsData : []).forEach(d => { if (Array.isArray(d.equipment)) d.equipment.forEach(e => items.add(e)); });
+    return Array.from(items).sort();
+  }, []);
+
+  const existingTags = useMemo(() => {
+    const items = new Set();
+    (Array.isArray(drillsData) ? drillsData : []).forEach(d => { if (Array.isArray(d.tags)) d.tags.forEach(t => items.add(t)); });
+    return Array.from(items).sort();
+  }, []);
+
+  const toggleNewEquipment = (item) => {
+    setNewDrillForm(prev => ({
+      ...prev,
+      equipment: prev.equipment.includes(item)
+        ? prev.equipment.filter(e => e !== item)
+        : [...prev.equipment, item]
+    }));
+  };
+
+  const addNewEquipment = () => {
+    if (tmpEquipment.trim()) {
+      setNewDrillForm(prev => ({ ...prev, equipment: [...prev.equipment, tmpEquipment.trim()] }));
+      setTmpEquipment('');
+    }
+  };
+
+  const toggleNewTag = (tag) => {
+    setNewDrillForm(prev => ({
+      ...prev,
+      tags: prev.tags.includes(tag) ? prev.tags.filter(t => t !== tag) : [...prev.tags, tag]
+    }));
+  };
+
+  const addNewTag = () => {
+    if (tmpTag.trim()) {
+      setNewDrillForm(prev => ({ ...prev, tags: [...prev.tags, tmpTag.trim()] }));
+      setTmpTag('');
+    }
+  };
+
+  const handleAddDrill = () => {
+    const name = (newDrillForm.name || '').trim();
+    if (!name) { alert('Geef een naam op voor de oefening'); return; }
+    // compute next id from existing drills and selectedDrills
+    try {
+      const allIds = new Set();
+      (Array.isArray(drillsData) ? drillsData : []).forEach(d => d && typeof d.id === 'number' && allIds.add(d.id));
+      (Array.isArray(selectedDrills) ? selectedDrills : []).forEach(d => d && typeof d.id === 'number' && allIds.add(d.id));
+      let nextId = 1;
+      if (allIds.size > 0) nextId = Math.max(...Array.from(allIds)) + 1;
+
+      const newDrill = {
+        id: nextId,
+        name: name,
+        description: (newDrillForm.description || '').trim(),
+        duration: parseInt(newDrillForm.duration) || 0,
+        equipment: Array.isArray(newDrillForm.equipment) ? newDrillForm.equipment : [],
+        picture: [],
+        tags: Array.isArray(newDrillForm.tags) ? newDrillForm.tags : [],
+        intensity: parseInt(newDrillForm.intensity) || 1,
+      };
+
+      // Add to current selection (at end) via cart context
+      addDrill(newDrill);
+      showSaveMessage('Nieuwe oefening toegevoegd aan de training');
+      setAddModalOpen(false);
+      // reset form
+      setNewDrillForm({ name: '', description: '', duration: '', equipment: [], tags: [], intensity: 1 });
+    } catch (e) {
+      console.error('add drill failed', e);
+      alert('Kon de oefening niet toevoegen');
+    }
   };
 
   const handleSave = () => {
@@ -420,6 +511,18 @@ const TrainingSession = () => {
               <div className="drag-handle">⋮⋮</div>
             </div>
           ))}
+
+          {/* Add-new card placed after the last drill - same size as a session-drill */}
+          <div
+            className="session-drill add-new-drill"
+            role="button"
+            tabIndex={0}
+            onClick={() => setAddModalOpen(true)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setAddModalOpen(true); } }}
+            aria-label="Nieuwe oefening toevoegen"
+          >
+            <div className="add-inner">+</div>
+          </div>
         </div>
 
         {modalDrill && (
@@ -442,6 +545,64 @@ const TrainingSession = () => {
               <div style={{display:'flex', gap:8, justifyContent:'flex-end', marginTop:12}}>
                 <button className="btn-secondary" onClick={() => setSaveModal(false)}>Annuleren</button>
                 <button className="start-session-btn" onClick={handleSave}>Opslaan</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add new drill modal */}
+        {addModalOpen && (
+          <div className="save-modal-overlay" onClick={() => setAddModalOpen(false)}>
+            <div className="save-modal" onClick={(e) => e.stopPropagation()}>
+              <h3>Nieuwe oefening toevoegen</h3>
+              <label style={{display:'block', marginTop:8}}>Naam *</label>
+              <input className="form-input" type="text" placeholder="Naam van de oefening" value={newDrillForm.name} onChange={(e) => setNewDrillForm(prev => ({ ...prev, name: e.target.value }))} />
+              <label style={{display:'block', marginTop:8}}>Beschrijving</label>
+              <textarea className="form-textarea" rows={4} placeholder="Omschrijving" value={newDrillForm.description} onChange={(e) => setNewDrillForm(prev => ({ ...prev, description: e.target.value }))} />
+              <div style={{display:'flex', gap:8, marginTop:8}}>
+                <div style={{flex:1}}>
+                  <label>Duur (min)</label>
+                  <input className="form-input" type="number" min="0" value={newDrillForm.duration} onChange={(e) => setNewDrillForm(prev => ({ ...prev, duration: e.target.value }))} />
+                </div>
+                <div style={{width:120}}>
+                  <label>Intensiteit</label>
+                  <select className="form-select" value={newDrillForm.intensity} onChange={(e) => setNewDrillForm(prev => ({ ...prev, intensity: e.target.value }))}>
+                    <option value={1}>1 - Licht</option>
+                    <option value={2}>2 - Gemiddeld</option>
+                    <option value={3}>3 - Zwaar</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{marginTop:10}}>
+                <label>Materiaal (selecteer of voeg toe)</label>
+                <div className="chips-container">
+                  {existingEquipment.map(eq => (
+                    <button key={eq} type="button" className={`chip ${newDrillForm.equipment.includes(eq) ? 'chip-active' : ''}`} onClick={() => toggleNewEquipment(eq)}>{eq}</button>
+                  ))}
+                </div>
+                <div style={{display:'flex', gap:8, marginTop:8}}>
+                  <input className="form-input" placeholder="Nieuw materiaal" value={tmpEquipment} onChange={(e) => setTmpEquipment(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addNewEquipment())} />
+                  <button type="button" className="btn-add" onClick={addNewEquipment}>Toevoegen</button>
+                </div>
+              </div>
+
+              <div style={{marginTop:10}}>
+                <label>Tags (selecteer of voeg toe)</label>
+                <div className="chips-container">
+                  {existingTags.map(tag => (
+                    <button key={tag} type="button" className={`chip ${newDrillForm.tags.includes(tag) ? 'chip-active' : ''}`} onClick={() => toggleNewTag(tag)}>{tag}</button>
+                  ))}
+                </div>
+                <div style={{display:'flex', gap:8, marginTop:8}}>
+                  <input className="form-input" placeholder="Nieuwe tag" value={tmpTag} onChange={(e) => setTmpTag(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addNewTag())} />
+                  <button type="button" className="btn-add" onClick={addNewTag}>Toevoegen</button>
+                </div>
+              </div>
+
+              <div style={{display:'flex', gap:8, justifyContent:'flex-end', marginTop:12}}>
+                <button className="btn-secondary" onClick={() => setAddModalOpen(false)}>Annuleren</button>
+                <button className="start-session-btn" onClick={handleAddDrill}>Toevoegen</button>
               </div>
             </div>
           </div>

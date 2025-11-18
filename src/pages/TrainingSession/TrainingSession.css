@@ -373,6 +373,52 @@
   box-sizing: border-box;
 }
 
+/* Form styles reused for the add-exercise modal */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.chip {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+.chip-active {
+  background: #43669e;
+  color: #fff;
+  border-color: #43669e;
+}
+.btn-add {
+  background: #43669e;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-add:hover {
+  background: #365280;
+}
+
 .btn-secondary {
   background: transparent;
   border: 1px solid #cfcfcf;
@@ -525,4 +571,31 @@
   .save-modal {
     margin: 0 12px;
   }
+}
+
+/* Add-new card styling: make it match session-drill size and feel */
+.session-drill.add-new-drill {
+  background: #fbfdff;
+  border: 2px dashed #d7e6fb;
+  color: #43669e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.session-drill.add-new-drill .add-inner {
+  font-size: 36px;
+  line-height: 1;
+  color: #43669e;
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(67, 102, 158, 0.06);
+}
+.session-drill.add-new-drill:hover {
+  background: #f0f6ff;
+  border-color: #bcd4f5;
 }
